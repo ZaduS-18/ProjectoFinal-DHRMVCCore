@@ -1,0 +1,102 @@
+﻿@model DHRMVCCore.Models.Especialidad
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+    <!-- jQuery Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box" style="width:20rem;">
+        <img src="../../dist/img/logo_bravoizquierdo.jpg" alt="Descripción de la imagen" class="img-thumbnail">
+        <!-- Input addon -->
+        <div class="card card-info">
+            <div class="card-header" style="background-color: #8a0602;">
+                <h3 class="card-title" style="text-align: center;">BI DHR Eliminar Especialidad</h3>
+            </div>
+            <div class="card-body">
+                <h3>Estas seguro de eliminar la especialidad?</h3>
+                <div>
+                    <hr />
+                    <dl class="row">
+                        <dt class = "col-sm-8">
+                            <label>Nombre Especialidad</label>
+                        </dt>
+                        <dd class = "col-sm-10">
+                            @Html.DisplayFor(model => model.NombreEsp)
+                        </dd>
+                    </dl>
+    
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="IdEspecialidad" />
+                        <button type="button"
+                                class="btn btn-danger"
+                                data-id="@Model.IdEspecialidad"
+                                onclick="confirmDelete(this)">
+                            Delete
+                        </button>
+                        <a asp-action="ListarEspecialidad">Volveer</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function confirmDelete(buttonElement) {
+            var especialidadId = buttonElement.getAttribute('data-id');
+            var actas = @Html.Raw(Json.Serialize(ViewBag.ActasAsociadas ?? new List<int>()));
+
+            if (actas.length > 0) {
+                // Mostrar alerta si hay actas asociadas
+                Swal.fire({
+                    title: 'No se puede eliminar',
+                    text: 'Esta obra está asociada con las actas: ' + actas.join(', '),
+                    icon: 'error'
+                });
+            } else {
+                // Si no hay actas, mostrar confirmación de eliminación
+                Swal.fire({
+                    title: '¿Está seguro?',
+                    text: "Esta acción no se puede deshacer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Enviar solicitud POST para eliminar
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/Especialidads/Delete/' + especialidadId; // Asegúrate de que la acción coincida con tu ruta en el controlador
+                        // Añadir el token de verificación de solicitud anti-falsificación
+                        var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                        form.innerHTML = '<input type="hidden" name="__RequestVerificationToken" value="' + token + '">';
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

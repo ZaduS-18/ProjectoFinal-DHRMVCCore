@@ -1,0 +1,101 @@
+﻿@model DHRMVCCore.Models.RazonSocial
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+    <!-- jQuery Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+</head>
+
+@* <h1>Create</h1>
+
+<h4>Obra</h4>
+<hr /> *@
+<body class="hold-transition login-page">
+    <div class="login-box" style="width:20rem;">
+        <img src="../../dist/img/logo_bravoizquierdo.jpg" alt="Descripción de la imagen" class="img-thumbnail">
+        <!-- Input addon -->
+        <div class="card card-info">
+            <div class="card-header" style="background-color: #8a0602;">
+                <h3 class="card-title" style="text-align: center;">BI DHR CREAR OBRA</h3>
+            </div>
+            <div class="card-body">
+                <div class="col-md-10">
+                    <div class="row">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @* <div class="form-group">
+                                <label asp-for="IdRazonSocial" class="control-label"></label>
+                                <input asp-for="IdRazonSocial" class="form-control" />
+                                <span asp-validation-for="IdRazonSocial" class="text-danger"></span>
+                            </div> *@
+                            <div class="form-group">
+                                <label asp-for="RutRs" class="control-label">R.U.T RAZON SOCIAL</label>
+                                <input asp-for="RutRs" id="rutInput" class="form-control" />
+                                <span asp-validation-for="RutRs" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NombreRs" class="control-label">NOMBRE RAZON SOCIAL</label>
+                                <input asp-for="NombreRs" class="form-control" maxlength="100" />
+                                <span asp-validation-for="NombreRs" class="text-danger"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <input type="submit" value="Create" class="btn btn-danger btn-lg" />
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="col-auto">
+                                        <a asp-action="ListarRazonSocial" class="btn btn-light btn-lg">Volver</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script src="~/plugins/jquery/jquery.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="../../dist/js/adminlte.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Aplicar máscara con Inputmask
+                Inputmask('99.999.999-9').mask(document.getElementById('rutInput'));
+            });
+        </script>
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+
+@* 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+
+</html>

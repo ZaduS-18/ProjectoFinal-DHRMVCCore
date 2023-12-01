@@ -1,0 +1,67 @@
+﻿@model DHRMVCCore.Models.RazonSocial
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+    <!-- jQuery Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box" style="width:20rem;">
+        <img src="../../dist/img/logo_bravoizquierdo.jpg" alt="Descripción de la imagen" class="img-thumbnail">
+        <!-- Input addon -->
+        <div class="card card-info">
+            <div class="card-header" style="background-color: #8a0602;">
+                <h3 class="card-title" style="text-align: center;">BI DHR Editar Razón Social</h3>
+            </div>
+            <div class="card-body">
+                <h3>Estas seguro de editar la Razón Social?</h3>
+                <div>
+                    <h4>Razón Social</h4>
+                    <hr />
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="IdRazonSocial" />
+                        <div class="form-group">
+                            <label asp-for="RutRs" class="control-label"></label>
+                            <input asp-for="RutRs" class="form-control" />
+                            <span asp-validation-for="RutRs" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NombreRs" class="control-label"></label>
+                            <input asp-for="NombreRs" class="form-control" />
+                            <span asp-validation-for="NombreRs" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <a asp-action="ListarRazonSocial">Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

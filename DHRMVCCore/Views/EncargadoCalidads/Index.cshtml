@@ -1,0 +1,89 @@
+﻿@model IEnumerable<DHRMVCCore.Models.EncargadoCalidad>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SupObra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CumEspTec)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrabjProtocolo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CerEnsayo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Calidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrabjTermOtr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Firma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActaIdActaNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupObra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CumEspTec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrabjProtocolo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CerEnsayo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Calidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrabjTermOtr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActaIdActaNavigation.IdActa)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdEncargadocali">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdEncargadocali">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdEncargadocali">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

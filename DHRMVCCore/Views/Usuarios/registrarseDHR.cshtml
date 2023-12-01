@@ -1,0 +1,412 @@
+﻿@model DHRMVCCore.Models.Usuario
+
+@{
+    ViewData["Title"] = "registrarseDHR";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+    <!-- jQuery Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+    <style>
+        .dropdown-container {
+            display: none;
+            overflow: hidden;
+        }
+
+        .dropdown-btn {
+            // Estilos para tu botón aquí
+        }
+    </style>
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box" style="width:40rem;">
+        <img src="../../dist/img/logo_bravoizquierdo.jpg" alt="Descripción de la imagen" class="img-thumbnail">
+        <!-- Input addon -->
+        <div class="card card-info">
+            <div class="card-header" style="background-color: #8a0602;">
+                <h3 class="card-title" style="text-align: center;">BI DHR CREAR PERFIL</h3>
+            </div>
+            <form asp-action="registrarseDHR">
+
+            <!-- Primer Nombre y Segundo Nombre -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                            <input asp-for="PrimerNombre" required class="form-control" maxlength="30" placeholder="Primer Nombre" />
+                        @* <span asp-validation-for="PrimerNombre" class="text-danger"></span> *@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                            <input asp-for="SegundoNombre" required class="form-control" maxlength="30" placeholder="Segundo Nombre" />
+                        @* <span asp-validation-for="SegundoNombre" class="text-danger"></span> *@
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primer Apellido y Segundo Apellido -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                            <input asp-for="PrimerApellido" class="form-control" maxlength="30" required placeholder="Primer Apellido" />
+                        @* <span asp-validation-for="PrimerApellido" class="text-danger"></span> *@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                            <input asp-for="SegundoApellido" required class="form-control" maxlength="30" placeholder="Segundo Apellido" />
+                        @* <span asp-validation-for="SegundoApellido" class="text-danger"></span> *@
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                </div>
+                    <input asp-for="Correo" class="form-control" required placeholder="Email" maxlength="30" type="email" name="Correo" />
+               @*  <span asp-validation-for="Correo" class="text-danger"></span> *@
+            </div>
+            <!-- R.U.T y Teléfono -->
+
+            <div class="row">
+                    <div class="col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user-shield"></i></span>
+                        </div>
+                        <input asp-for="Rut" class="form-control" required maxlength="10" placeholder="R.U.T Formato (12345678-9)" id="rutInput" />
+                        <div id="error-message" class="text-danger"></div>
+                    </div>
+                    </div>
+                <div class="col-md-6">
+                    <div class="input-group mb-6">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        </div>
+                            <input asp-for="Telefono" class="form-control" required placeholder="Teléfono" id="telefonoInput" />
+                        @* <span asp-validation-for="Telefono" class="text-danger"></span> *@
+                    </div>
+                </div>
+            </div>
+                <!-- Dirección -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                    </div>
+                    <input asp-for="Direccion" class="form-control" maxlength="30" placeholder="Dirección" />
+                    @* <span asp-validation-for="Direccion" class="text-danger"></span> *@
+                </div>
+
+                <!-- Contraseña -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <input id="password" asp-for="Contrasena" type="password" required class="form-control" minlength="6" maxlength="30" placeholder="Contraseña" />
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    </div>
+                    <input id="confirmPassword" type="password" required class="form-control" minlength="6" maxlength="30" placeholder="Confirmar Contraseña" />
+                    <span id="passwordError" class="text-danger"></span>
+                </div>
+
+                <!-- FotoP -->
+                <div class="input-group mb-3" hidden>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-image"></i></span>
+                    </div>
+                    <input asp-for="FotoP" class="form-control" placeholder="Foto" />
+                    @* <span asp-validation-for="FotoP" class="text-danger"></span> *@
+                </div>
+
+                <!-- Rol y Obra -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                            </div>
+                            <select asp-for="RolIdRol" class="form-control" asp-items="ViewBag.RolIdRol"></select>
+                            @* <span asp-validation-for="RolIdRol" class="text-danger"></span> *@
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a class="dropdown-btn btn-danger btn-lg">Seleccionar Obras</a>
+                        <div class="dropdown-container">
+                            @if (ViewData["ObraIdObra"] is SelectList obras && obras.Any())
+                            {
+                                @foreach (var obra in obras)
+                                {
+                                    bool isSelected = false;
+                                    if (Model.ObraIdObrasSeleccionadas != null && int.TryParse(obra.Value, out int obraId))
+                                    {
+                                        isSelected = Model.ObraIdObrasSeleccionadas.Contains(obraId);
+                                    }
+
+                                    <div class="form-check" style="margin-left: 10px;">
+                                        <input type="checkbox" class="form-check-input"
+                                               name="ObraIdObrasSeleccionadas"
+                                               value="@obra.Value"
+                                               id="obra-@obra.Value"
+                                        @(isSelected ? "checked" : "") />
+                                        <label class="form-check-label" for="obra-@obra.Value" style="margin-left: -140px;">@obra.Text</label>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>No hay obras disponibles para seleccionar.</p>
+                            }
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Checkbox para Admin y Habilitado -->
+                <div class="row">
+                    <div class="col-md-6">
+                    <div class="form-group form-check">
+                            <input class="form-check-input" style="margin-left: -5px;" asp-for="Admin" />
+                            <label class="form-check-label" style="margin-left: -200px;" for="@Html.IdFor(model => model.Admin)">
+                            @Html.DisplayNameFor(model => model.Admin)
+                        </label>
+                    </div>
+                </div>
+                    <div class="col-md-6">
+
+                    <div class="form-group form-check">
+                            <input class="form-check-input" style="margin-left: -5px;"  asp-for="Habilitado" />
+                            <label class="form-check-label" style="margin-left: -200px;" for="@Html.IdFor(model => model.Habilitado)">
+                            @Html.DisplayNameFor(model => model.Habilitado)
+                        </label>
+                    </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Botones -->
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="col-auto">
+                            <input type="submit" value="Crear" id="submitButton" class="btn btn-danger btn-lg" />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="col-auto">
+                            <a asp-controller="Home" asp-action="RedirectToListarUsuarios" class="btn btn-light btn-lg">VOLVER</a>
+                        </div>
+                     </div>
+                </div>
+            </form>
+            <!-- /.card-body -->
+        </div>
+    </div>
+
+    <style>
+        label {
+            display: block;
+            text-align: center;
+            color: #7a7a7a;
+        }
+    </style>
+
+    @section Scripts {
+        @{
+            <script src="~/plugins/jquery/jquery.js"></script>
+            <!-- Bootstrap 4 -->
+            <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- AdminLTE App -->
+            <script src="../../dist/js/adminlte.min.js"></script>
+
+            <script>
+                function digito(rut) {
+                    let suma = 0;
+                    let multiplicador = 1;
+                    while (rut !== 0) {
+                        multiplicador++;
+                        if (multiplicador === 8) multiplicador = 2;
+                        suma += (rut % 10) * multiplicador;
+                        rut = Math.floor(rut / 10);
+                    }
+                    suma = 11 - (suma % 11);
+                    if (suma === 11) {
+                        return '0';
+                    } else if (suma === 10) {
+                        return 'K';
+                    } else {
+                        return suma.toString();
+                    }
+                }
+
+                function validaRut(rutCompleto) {
+                    let rut = rutCompleto.replace(/\./g, '').toUpperCase();
+                    let expresion = /^[0-9]+-[0-9K]$/;
+                    let dv = rut.slice(-1);
+                    if (!expresion.test(rut)) {
+                        return false;
+                    }
+                    let cuerpo = parseInt(rut.slice(0, -2), 10);
+                    if (dv !== digito(cuerpo)) {
+                        return false;
+                    }
+                    return true;
+                }
+                function verificarErroresYActualizarBoton() {
+                    var passwordError = document.getElementById('passwordError').textContent;
+                    var errorMessage = document.getElementById('error-message').textContent;
+                    var botonSubmit = document.querySelector('input[type="submit"]');
+
+                    if (passwordError.trim() !== '' || errorMessage.trim() !== '') {
+                        botonSubmit.disabled = true;
+                    } else {
+                        botonSubmit.disabled = false;
+                    }
+                }
+</script>
+             <!-- Mascara RUT-->
+            <script>
+                document.getElementById('rutInput').addEventListener('input', function () {
+                    let rut = this.value;
+                    let mensajeError = document.getElementById('error-message');
+                    if (validaRut(rut)) {
+                        mensajeError.textContent = '';
+                    } else {
+                        mensajeError.textContent = 'RUT inválido';
+                    }
+                    verificarErroresYActualizarBoton(); // Llamar a la función de verificación
+                });
+             </script>
+
+            // <!-- Mascara RUT-->
+            // <script>
+            //     document.addEventListener('DOMContentLoaded', function () {
+            //         // Aplicar máscara con Inputmask
+            //         Inputmask('99.999.999-9').mask(document.getElementById('rutInput'));
+            //     });
+            // </script>
+            <!-- Mascara TELEFONO -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const telefonoInput = document.getElementById('telefonoInput');
+
+                    telefonoInput.addEventListener('focus', function () {
+                        if (!this.value) {
+                            this.value = '';
+                        }
+                    });
+
+                    telefonoInput.addEventListener('input', function () {
+                        if (this.value.length > 9) {
+                            this.value = this.value.substring(0, 9);
+                        }
+                    });
+                });
+            </script>
+            <script>
+                document.getElementById("confirmPassword").addEventListener("input", function () {
+                    const passwordField = document.getElementById("password");
+                    const confirmPasswordField = document.getElementById("confirmPassword");
+                    const errorMessage = document.getElementById("passwordError");
+
+                    if (passwordField.value !== confirmPasswordField.value) {
+                        errorMessage.textContent = "Las contraseñas no coinciden.";
+                    } else {
+                        errorMessage.textContent = "";
+                    }
+                    verificarErroresYActualizarBoton(); // Llamar a la función de verificación
+                });
+                document.querySelector('.dropdown-btn').addEventListener('click', function () {
+                    this.classList.toggle("active");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+
+            </script>
+
+            <script>
+                $(document).ready(function () {
+                    var isCorreoValid = true;
+
+                    $('#Correo').on('blur', function () {
+                        var correo = $(this).val();
+                        $.ajax({
+                            url: '@Url.Action("VerificarCorreo", "Usuarios")',
+                            data: { correo: correo },
+                            success: function (existe) {
+                                if (!existe) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'El correo electrónico ya está registrado.'
+                                    });
+                                    $('#Correo').addClass('is-invalid');
+                                    isCorreoValid = false;
+                                } else {
+                                    $('#Correo').removeClass('is-invalid');
+                                    isCorreoValid = true;
+                                }
+                                $('#submitButton').prop('disabled', !isCorreoValid);
+                            }
+                        });
+                    });
+
+                    // Puedes también deshabilitar el botón al inicio si lo prefieres
+                    $('#submitButton').prop('disabled', true);
+
+                    // Revisa si el correo es válido cada vez que se intenta enviar el formulario
+                    $('form').on('submit', function (e) {
+                        if (!isCorreoValid) {
+                            e.preventDefault();
+                            // Puedes mostrar un mensaje adicional aquí si lo deseas
+                        }
+                    });
+                });
+            </script>
+
+
+        }
+    }
+
+</body>
+</html>
+

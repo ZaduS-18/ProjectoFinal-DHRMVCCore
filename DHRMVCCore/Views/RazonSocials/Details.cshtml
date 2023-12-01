@@ -1,0 +1,63 @@
+﻿@model DHRMVCCore.Models.RazonSocial
+
+@{
+    ViewData["Title"] = "Details";
+}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+    <!-- jQuery Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box" style="width:20rem;">
+        <img src="../../dist/img/logo_bravoizquierdo.jpg" alt="Descripción de la imagen" class="img-thumbnail">
+        <!-- Input addon -->
+        <div class="card card-info">
+            <div class="card-header" style="background-color: #8a0602;">
+                <h3 class="card-title" style="text-align: center;">BI DHR Detalle Razón Social</h3>
+            </div>
+            <div class="card-body">
+                <div>
+                    <h4>Razón Social</h4>
+                    <hr />
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.RutRs)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.RutRs)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.NombreRs)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.NombreRs)
+                        </dd>
+                    </dl>
+
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.IdRazonSocial">Edit</a> |
+                        <a asp-action="ListarRazonSocial">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

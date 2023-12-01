@@ -1,0 +1,113 @@
+﻿@model IEnumerable<DHRMVCCore.Models.Actum>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaPresentacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoActa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaApro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdministradorObraIdEncalidadNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EncargadoCalidadIdEncargadocaliNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspBimIdEspBimNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EspecialidadIdEspecialidadNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpertoPrevencionIdExpertoprevNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JefeBodegaIdJefeBodegaNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JefeTerrenoIdJefeterrenoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObraIdObraNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObsObrasIdObservacionNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OficinaTecnicaIdOfitecNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RazonSocialIdRazonSocialNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaPresentacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoActa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaApro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdministradorObraIdEncalidadNavigation.IdEncalidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EncargadoCalidadIdEncargadocaliNavigation.IdEncargadocali)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EspBimIdEspBimNavigation.IdEspBim)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EspecialidadIdEspecialidadNavigation.IdEspecialidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpertoPrevencionIdExpertoprevNavigation.IdExpertoprev)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JefeBodegaIdJefeBodegaNavigation.IdJefeBodega)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JefeTerrenoIdJefeterrenoNavigation.IdJefeterreno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ObraIdObraNavigation.IdObra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ObsObrasIdObservacionNavigation.IdObservacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OficinaTecnicaIdOfitecNavigation.IdOfitec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazonSocialIdRazonSocialNavigation.IdRazonSocial)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdActa">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdActa">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdActa">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

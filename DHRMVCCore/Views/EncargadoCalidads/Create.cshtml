@@ -1,0 +1,82 @@
+﻿@model DHRMVCCore.Models.EncargadoCalidad
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>EncargadoCalidad</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdEncargadocali" class="control-label"></label>
+                <input asp-for="IdEncargadocali" class="form-control" />
+                <span asp-validation-for="IdEncargadocali" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupObra" class="control-label"></label>
+                <input asp-for="SupObra" class="form-control" />
+                <span asp-validation-for="SupObra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CumEspTec" class="control-label"></label>
+                <input asp-for="CumEspTec" class="form-control" />
+                <span asp-validation-for="CumEspTec" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrabjProtocolo" class="control-label"></label>
+                <input asp-for="TrabjProtocolo" class="form-control" />
+                <span asp-validation-for="TrabjProtocolo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CerEnsayo" class="control-label"></label>
+                <input asp-for="CerEnsayo" class="form-control" />
+                <span asp-validation-for="CerEnsayo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Calidad" class="control-label"></label>
+                <input asp-for="Calidad" class="form-control" />
+                <span asp-validation-for="Calidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrabjTermOtr" class="control-label"></label>
+                <input asp-for="TrabjTermOtr" class="form-control" />
+                <span asp-validation-for="TrabjTermOtr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Observacion" class="control-label"></label>
+                <input asp-for="Observacion" class="form-control" />
+                <span asp-validation-for="Observacion" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Firma" /> @Html.DisplayNameFor(model => model.Firma)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActaIdActa" class="control-label"></label>
+                <select asp-for="ActaIdActa" class ="form-control" asp-items="ViewBag.ActaIdActa"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

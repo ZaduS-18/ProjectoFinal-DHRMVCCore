@@ -1,0 +1,87 @@
+﻿@model DHRMVCCore.Models.ExpertoPrevencion
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>ExpertoPrevencion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdExpertoprev" class="control-label"></label>
+                <input asp-for="IdExpertoprev" class="form-control" />
+                <span asp-validation-for="IdExpertoprev" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CuenContTrab" class="control-label"></label>
+                <input asp-for="CuenContTrab" class="form-control" />
+                <span asp-validation-for="CuenContTrab" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CuenRegInterno" class="control-label"></label>
+                <input asp-for="CuenRegInterno" class="form-control" />
+                <span asp-validation-for="CuenRegInterno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompRegInsec" class="control-label"></label>
+                <input asp-for="CompRegInsec" class="form-control" />
+                <span asp-validation-for="CompRegInsec" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CuentaEpp" class="control-label"></label>
+                <input asp-for="CuentaEpp" class="form-control" />
+                <span asp-validation-for="CuentaEpp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IntroEspecifica" class="control-label"></label>
+                <input asp-for="IntroEspecifica" class="form-control" />
+                <span asp-validation-for="IntroEspecifica" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cumple100" class="control-label"></label>
+                <input asp-for="Cumple100" class="form-control" />
+                <span asp-validation-for="Cumple100" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CumpleIntrucciones" class="control-label"></label>
+                <input asp-for="CumpleIntrucciones" class="form-control" />
+                <span asp-validation-for="CumpleIntrucciones" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Observacion" class="control-label"></label>
+                <input asp-for="Observacion" class="form-control" />
+                <span asp-validation-for="Observacion" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Firma" /> @Html.DisplayNameFor(model => model.Firma)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActaIdActa" class="control-label"></label>
+                <select asp-for="ActaIdActa" class ="form-control" asp-items="ViewBag.ActaIdActa"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

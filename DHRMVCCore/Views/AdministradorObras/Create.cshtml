@@ -1,0 +1,82 @@
+﻿@model DHRMVCCore.Models.AdministradorObra
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>AdministradorObra</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdEncalidad" class="control-label"></label>
+                <input asp-for="IdEncalidad" class="form-control" />
+                <span asp-validation-for="IdEncalidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IvaCancel" class="control-label"></label>
+                <input asp-for="IvaCancel" class="form-control" />
+                <span asp-validation-for="IvaCancel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PantImposicion" class="control-label"></label>
+                <input asp-for="PantImposicion" class="form-control" />
+                <span asp-validation-for="PantImposicion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Finiquito" class="control-label"></label>
+                <input asp-for="Finiquito" class="form-control" />
+                <span asp-validation-for="Finiquito" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CerAntecedente" class="control-label"></label>
+                <input asp-for="CerAntecedente" class="form-control" />
+                <span asp-validation-for="CerAntecedente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CerF301" class="control-label"></label>
+                <input asp-for="CerF301" class="form-control" />
+                <span asp-validation-for="CerF301" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LibAsist" class="control-label"></label>
+                <input asp-for="LibAsist" class="form-control" />
+                <span asp-validation-for="LibAsist" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Observacion" class="control-label"></label>
+                <input asp-for="Observacion" class="form-control" />
+                <span asp-validation-for="Observacion" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Firma" /> @Html.DisplayNameFor(model => model.Firma)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActaIdActa" class="control-label"></label>
+                <select asp-for="ActaIdActa" class ="form-control" asp-items="ViewBag.ActaIdActa"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

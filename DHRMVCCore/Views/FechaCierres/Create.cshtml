@@ -1,0 +1,86 @@
+﻿@model DHRMVCCore.Models.FechaCierre
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+    <!-- jQuery Inputmask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+</head>
+@* <h1>Create</h1>
+
+<h4>FechaCierre</h4>
+<hr /> *@
+<body class="hold-transition login-page">
+    <div class="login-box" style="width:20rem;">
+        <img src="../../dist/img/logo_bravoizquierdo.jpg" alt="Descripción de la imagen" class="img-thumbnail">
+        <!-- Input addon -->
+        <div class="card card-info">
+            <div class="card-header" style="background-color: #8a0602;">
+                <h3 class="card-title" style="text-align: center;">BI DHR CREAR FECHA CIERRE</h3>
+            </div>
+            <div class="card-body">
+                <div class="col-md-10">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        @*< div class="form-group">
+                            <label asp-for="IdFCierre" class="control-label"></label>
+                            <input asp-for="IdFCierre" class="form-control" />
+                            <span asp-validation-for= "IdFCierre" class="text-danger"></span>
+                        </div> *@
+                        <div class="form-group">
+                            <label asp-for="TipPago" class="control-label"></label>
+                            <select asp-for="TipPago" asp-items="ViewBag.TipPagoOptions" class="form-control"></select>
+                            <span asp-validation-for="TipPago" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FRecepcion" class="control-label">Fecha Recepción</label>
+                            <input asp-for="FRecepcion" class="form-control" />
+                            <span asp-validation-for="FRecepcion" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FCierre" class="control-label">Fecha Cierre</label>
+                            <input asp-for="FCierre" class="form-control" />
+                            <span asp-validation-for="FCierre" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-danger btn-lg" />
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-auto">
+                                    <a asp-action="ListarFechaCierre" class="btn btn-light btn-lg">Volver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</html>

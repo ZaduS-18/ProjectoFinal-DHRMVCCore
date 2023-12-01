@@ -1,0 +1,1971 @@
+﻿@model DHRMVCCore.Models.Actum
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+
+    <style>
+        /* Sobrescribir la regla CSS para .elevation-4 solo en esta página */
+        .elevation-4 {
+            box-shadow: none !important;
+        }
+
+        .container-custom {
+            max-width: 1700px; /* o el ancho que desees */
+        }
+
+        .icheck-primary.d-inline label {
+            font-size: 24px; /* o el tamaño que prefieras */
+        }
+
+        .firma-container {
+            padding-top: 250px; /* Espacio antes de la línea de firma */
+            margin-top: 50px; /* Espacio desde el contenido anterior */
+            text-align: center; /* Alinea el texto al centro */
+        }
+
+        .linea-firma {
+            width: 60%; /* Ancho de la línea de firma */
+            border-bottom: 1px solid #000; /* Línea de firma */
+            margin: 0 auto 10px; /* Centra la línea y agrega espacio abajo */
+        }
+
+        .nombre-firma {
+            margin: 0; /* Remueve el margen por defecto */
+            font-size: 14px; /* Tamaño de la fuente para el nombre */
+            font-style: italic; /* Estilo de fuente para el nombre */
+        }
+
+        .titulo-firma {
+            margin: 5px 0 0; /* Espacio arriba del título */
+            font-size: 12px; /* Tamaño de la fuente para el título */
+        }
+
+
+    </style>
+</head>
+
+<body id="content1">
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a asp-controller="Home" asp-action="RedirectToListarActums" class="nav-link">Actas</a>
+            </li>
+
+        </ul>
+
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
+
+
+            <!-- Messages Dropdown Menu -->
+            <li class="nav-item dropdown" style="position: relative; left: -20px;">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-danger navbar-badge">3</span>
+                </a>
+                <div id="contenedor-notificaciones" class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <!-- Las notificaciones se cargarán aquí -->
+                </div>
+            </li>
+
+
+            <li class="nav-item">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    var primerNombre = User.Claims.FirstOrDefault(c => c.Type == "PrimerNombre")?.Value;
+                    var primerApellido = User.Claims.FirstOrDefault(c => c.Type == "PrimerApellido")?.Value;
+                    var rolId = User.Claims.FirstOrDefault(c => c.Type == "RolIdRol")?.Value;
+                    string nombreRol = "";
+
+                    switch (rolId)
+                    {
+                        case "0":
+                            nombreRol = "Sin Rol";
+                            break;
+                        case "1":
+                            nombreRol = "Jefe de Terreno";
+                            break;
+                        case "2":
+                            nombreRol = "Oficina Técnica";
+                            break;
+                        case "3":
+                            nombreRol = "Experto en Prevención";
+                            break;
+                        case "4":
+                            nombreRol = "Encargado de Calidad";
+                            break;
+                        case "5":
+                            nombreRol = "Administrativo de Obra";
+                            break;
+                        case "6":
+                            nombreRol = "Especialidades BIM";
+                            break;
+                        case "7":
+                            nombreRol = "Jefe de Bodega";
+                            break;
+                        case "8":
+                            nombreRol = "OBS Obras";
+                            break;
+                        default:
+                            nombreRol = "Rol Desconocido";
+                            break;
+                    }
+
+                    <span class="font-weight-bold">
+                        @($"{primerNombre} {primerApellido}")
+                    </span>
+
+                    <br>
+                    <span class="text-muted" style="font-size: smaller;">
+                        Rol: @nombreRol
+                    </span>
+                }
+                else
+                {
+                    <span>Usuario no autenticado</span>
+                }
+            </li>
+
+
+
+
+        </ul>
+    </nav>
+    <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a asp-controller="Home" asp-action="RedirectToListarActums" class="brand-link">
+            <img src="../../dist/img/logo_bravoizquierdo.jpg" alt="DHR" class="brand-image elevation-3" style="opacity: .8">
+            <span class="brand-text font-weight-light">DHR</span>
+        </a>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <!-- SidebarSearch Form -->
+            <div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <div class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="RedirectToListarActums" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Actas
+
+                            </p>
+                        </a>
+                    </li>
+                    @{
+                        var isAdmin3 = Context.User.HasClaim(c => c.Type == "Admin" && c.Value == "True");
+                        var isOficinaTecnica3 = Context.User.HasClaim(c => c.Type == "RolIdRol" && c.Value == "2"); // Asumiendo que "2" es el valor para Oficina Técnica
+                    }
+
+                    @if (isAdmin3 || isOficinaTecnica3)
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="RedirectToListarUsuarios" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Perfiles
+                                </p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="RedirectToListarRazonSocial" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Razones Sociales
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="RedirectToListarObras" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Obras
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="RedirectToListarFechaCierre" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Calendario
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="RedirectToListarEspecialidad" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Especialidades
+                                </p>
+                            </a>
+                        </li>
+                    }
+
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Salir" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Cerrar Session
+                            </p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+    <div class="container-custom " id="content"  style=" margin-left: 20rem;">
+        <button onclick="downloadPDF()">Descargar como PDF</button>
+       @*  <button onclick="downloadPDF2()">Descargar como PDF por partes</button> *@
+        <!-- general form elements disabled -->
+        <div class="card card-warning">
+            <div class="card-header">
+                <h3 class="card-title"></h3>
+            </div>
+            <!-- /.card-header -->
+             <div class="card-body">
+                <img src="../../docs/assets/img/head-acta2.png" alt="Descripción de la imagen" class="img-fluid">
+
+
+
+                <div class="row">
+                     <div class="col-sm-3">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <input type="hidden" asp-for="IdActa" />
+                                <label asp-for="ObraIdObra" class="control-label">OBRA</label>
+                                <input value="@Html.DisplayFor(model => model.ObraIdObraNavigation.NombreObra)" disabled class="form-control" />
+                                @* <select asp-for="ObraIdObra" class="form-control" asp-items="ViewBag.ObraIdObra"></select> *@
+                                <span asp-validation-for="ObraIdObra" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="RazonSocialIdRazonSocial" class="control-label">RAZON SOCIAL</label>
+                                <input value="@Html.DisplayFor(model => model.RazonSocialIdRazonSocialNavigation.NombreRs)" disabled class="form-control" />
+                                @* <select asp-for="RazonSocialIdRazonSocial" class="form-control" asp-items="ViewBag.RazonSocialIdRazonSocial"></select> *@
+                                <span asp-validation-for="RazonSocialIdRazonSocial" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <select asp-for="JefeTerrenoIdJefeterreno" hidden class="form-control" asp-items="ViewBag.JefeTerrenoIdJefeterreno"></select>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="OficinaTecnicaIdOfitec" hidden class="form-control" asp-items="ViewBag.OficinaTecnicaIdOfitec"></select>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="ExpertoPrevencionIdExpertoprev" hidden class="form-control" asp-items="ViewBag.ExpertoPrevencionIdExpertoprev"></select>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="EncargadoCalidadIdEncargadocali" hidden class="form-control" asp-items="ViewBag.EncargadoCalidadIdEncargadocali"></select>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="AdministradorObraIdEncalidad" hidden class="form-control" asp-items="ViewBag.AdministradorObraIdEncalidad"></select>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="EspBimIdEspBim" hidden class="form-control" asp-items="ViewBag.EspBimIdEspBim"></select>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="JefeBodegaIdJefeBodega" hidden class="form-control" asp-items="ViewBag.JefeBodegaIdJefeBodega"></select>
+                            </div>
+                            <div class="form-group">
+                                <select asp-for="ObsObrasIdObservacion" hidden class="form-control" asp-items="ViewBag.ObsObrasIdObservacion"></select>
+                            </div>
+
+                        </div>
+                     <div class="col-sm-3">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label asp-for="EstadoActa" class="control-label">ESTADO DEL ACTA</label>
+                                
+                                @{
+                                    var estadoActaValue = Model.EstadoActa;
+                                    string borderColor = "";
+                                    string textColor = "";
+                                    string texto = "";
+
+                                    switch (estadoActaValue)
+                                    {
+                                        case 0:
+                                            borderColor = "border: 1px solid yellow;";
+                                            textColor = "color: yellow;";
+                                            texto = "Proceso";
+                                            break;
+                                        case 1:
+                                            borderColor = "border: 1px solid green;";
+                                            textColor = "color: green;";
+                                            texto = "Finalizado";
+                                            break;
+                                        case 2:
+                                            borderColor = "border: 1px solid red;";
+                                            textColor = "color: red;";
+                                            texto = "Expirado";
+                                            break;
+                                    }
+                                }
+
+                                <input value="@texto" class="form-control" style="@borderColor @textColor" disabled />
+                                
+                            </div>
+                        <div class="form-group">
+                            <label asp-for="NumPago" class="control-label">NUM ESTADO DE PAGO</label>
+                            <input asp-for="NumPago" disabled class="form-control" />
+                            <span asp-validation-for="NumPago" class="text-danger"></span>
+                        </div>
+                        </div>
+  
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label class="control-label">R.U.T</label>
+                            <input class="form-control" value="@Html.DisplayFor(model => model.RazonSocialIdRazonSocialNavigation.RutRs)" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FechaApro" class="control-label">FECH. ULTIMA ACTUALIZACION</label>
+                            <input asp-for="FechaApro" disabled class="form-control" />
+                            <span asp-validation-for="FechaApro" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label asp-for="EspecialidadIdEspecialidad" class="control-label">ESPECIALIDAD</label>
+                            <input value="@Html.DisplayFor(model => model.EspecialidadIdEspecialidadNavigation.NombreEsp)" disabled class="form-control" />
+                            <span asp-validation-for="EspecialidadIdEspecialidad" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FechaPresentacion" class="control-label">FECH. DE PRESENTACION</label>
+                            <input asp-for="FechaPresentacion" class="form-control" disabled />
+                            <span asp-validation-for="FechaPresentacion" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- /.card-body -->
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+
+        <!-- iCheck -->
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Formulario VºBº ADMINISTRATIVO DE OBRA</h3>
+            </div>
+            <div class="card-body">
+                <!-- Minimal style -->
+
+                <div class="row">
+                    <div class="col-md-24">
+                       
+     
+                        <div class="form-group">
+                            <label value="Nombre" class="control-label"></label>
+                            <input value="@Html.DisplayFor(model => model.AdministradorObraIdEncalidadNavigation.Nombre)" disabled class="form-control" />
+                        </div>
+                        <!-- CumPlaSem -->
+                                <div style="text-align: right;">
+                                    <label style="margin-right: 15px;">SI, NO, N/A</label>
+                                </div>
+                               
+                                <!-- Para IvaCancel -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="icheck-primary d-inline">
+                                        <label for="checkboxPrimary7">Ultimo IVA cancelado.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                        <div class="form-group " style="text-align: right;">
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioSix1" name="IvaCancel" disabled value="1" @(Model.AdministradorObraIdEncalidadNavigation.IvaCancel == 1 ? "checked" : "")>
+                                        <label for="radioSix1"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioSix2" name="IvaCancel" disabled value="2" @(Model.AdministradorObraIdEncalidadNavigation.IvaCancel == 2 ? "checked" : "")>
+                                        <label for="radioSix2"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioSix3" name="IvaCancel" disabled value="3" @(Model.AdministradorObraIdEncalidadNavigation.IvaCancel == 3 ? "checked" : "")>
+                                        <label for="radioSix3"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Para PantImposicion -->
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <label for="checkboxPrimary8">Planilla de Imposiciones (AFP, INP y/o Isapres, Mutualidades)</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioSeven1" name="PantImposicion" disabled value="1" @(Model.AdministradorObraIdEncalidadNavigation.PantImposicion == 1 ? "checked" : "")>
+                                        <label for="radioSeven1"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioSeven2" name="PantImposicion" disabled value="2" @(Model.AdministradorObraIdEncalidadNavigation.PantImposicion == 2 ? "checked" : "")>
+                                        <label for="radioSeven2"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioSeven3" name="PantImposicion" disabled value="3" @(Model.AdministradorObraIdEncalidadNavigation.PantImposicion == 3 ? "checked" : "")>
+                                        <label for="radioSeven3"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Para Finiquito -->
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <label for="checkboxPrimary9">Finiquitos, carta despido Inspección o Anexo de traslado según corresponda</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioEight1" name="Finiquito" disabled value="1" @(Model.AdministradorObraIdEncalidadNavigation.Finiquito == 1 ? "checked" : "")>
+                                        <label for="radioEight1"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioEight2" name="Finiquito" disabled value="2" @(Model.AdministradorObraIdEncalidadNavigation.Finiquito == 2 ? "checked" : "")>
+                                        <label for="radioEight2"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioEight3" name="Finiquito" disabled value="3" @(Model.AdministradorObraIdEncalidadNavigation.Finiquito == 3 ? "checked" : "")>
+                                        <label for="radioEight3"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                    <!-- Liquidaciones de sueldo firmadas por el trabajador FALTA -->
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-primary d-inline">
+                                                    <label for="checkboxPrimary9">
+                                                        Liquidaciones de sueldo firmadas por el trabajador
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group clearfix" style="text-align: right;">
+                                                <div class="icheck-danger d-inline">
+                                                    <input type="radio" id="radioEight11" name="LiqSueldo" disabled value="1" @(Model.AdministradorObraIdEncalidadNavigation.LiqSueldo == 1 ? "checked" : "")>
+                                                    <label for="radioEight11"></label>
+                                                </div>
+                                                <div class="icheck-danger d-inline">
+                                                    <input type="radio" id="radioEight22" name="LiqSueldo" disabled value="2" @(Model.AdministradorObraIdEncalidadNavigation.LiqSueldo == 2 ? "checked" : "")>
+                                                    <label for="radioEight22"></label>
+                                                </div>
+                                                <div class="icheck-danger d-inline">
+                                                    <input type="radio" id="radioEight32" name="LiqSueldo" disabled value="3" @(Model.AdministradorObraIdEncalidadNavigation.LiqSueldo == 3 ? "checked" : "")>
+                                                    <label for="radioEight32"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        <!-- Para CerAntecedente -->
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <label for="checkboxPrimary10">Certificado de Antecedentes F30 emitido por la Inspección del Trabajo.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioNine1" name="CerAntecedente" disabled value="1" @(Model.AdministradorObraIdEncalidadNavigation.CerAntecedente == 1 ? "checked" : "")>
+                                        <label for="radioNine1"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioNine2" name="CerAntecedente" disabled value="2" @(Model.AdministradorObraIdEncalidadNavigation.CerAntecedente == 2 ? "checked" : "")>
+                                        <label for="radioNine2"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioNine3" name="CerAntecedente" disabled value="3" @(Model.AdministradorObraIdEncalidadNavigation.CerAntecedente == 3 ? "checked" : "")>
+                                        <label for="radioNine3"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Para CerF301 -->
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <label for="checkboxPrimary11">Certificado de Antecedentes emitido por el Servicio de Registro Civil e Identificación.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioTen1" name="CerF301" disabled value="1" @(Model.AdministradorObraIdEncalidadNavigation.CerF301 == 1 ? "checked" : "")>
+                                        <label for="radioTen1"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioTen2" name="CerF301" disabled value="2" @(Model.AdministradorObraIdEncalidadNavigation.CerF301 == 2 ? "checked" : "")>
+                                        <label for="radioTen2"></label>
+                                    </div>
+                                    <div class="icheck-danger d-inline">
+                                        <input type="radio" id="radioTen3" name="CerF301" disabled value="3" @(Model.AdministradorObraIdEncalidadNavigation.CerF301 == 3 ? "checked" : "")>
+                                        <label for="radioTen3"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Asumo que podría haber más secciones similares, pero con este patrón puedes seguir adaptando para el resto. -->
+
+
+
+                        <div class="form-group">
+                            <label value="Observacion" class="control-label"></label>
+                            <input value="@Html.DisplayFor(model => model.AdministradorObraIdEncalidadNavigation.Observacion)" disabled class="form-control" />
+                       </div>
+                        <div class="form-group form-check" hidden>
+                            <label class="form-check-label">
+                                @Html.DisplayFor(model => model.AdministradorObraIdEncalidadNavigation.Firma)
+                            </label>
+                        </div>
+
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.card -->
+
+       
+                <div class="col-md-6">
+        <!-- iCheck -->
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Formulario VºBº ENCARGADO DE CALIDAD</h3>
+            </div>
+            <div class="card-body">
+                <!-- Minimal style -->
+
+                <div class="row">
+                    <div class="col-md-24">
+                        <div class="form-group">
+                            <label value="Nombre" class="control-label"></label>
+                            <input value="@Html.DisplayFor(model => model.EncargadoCalidadIdEncargadocaliNavigation.Nombre)" disabled class="form-control" />
+                        </div>
+                                <div style="text-align: right;">
+                                    <label style="margin-right: 15px;">SI, NO, N/A</label>
+                                </div>
+                        <div class="row">
+                            <div class="col-sm-24">
+                                <!-- Para SupObra -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary13">
+                                                    Supervisor en Obra
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                                <div class="form-group " style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioTwelve1" name="SupObra" value="1" @(Model.EncargadoCalidadIdEncargadocaliNavigation.SupObra == 1 ? "checked" : "") disabled>
+                                                <label for="radioTwelve1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioTwelve2" name="SupObra" value="2" @(Model.EncargadoCalidadIdEncargadocaliNavigation.SupObra == 2 ? "checked" : "") disabled>
+                                                <label for="radioTwelve2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioTwelve3" name="SupObra" value="3" @(Model.EncargadoCalidadIdEncargadocaliNavigation.SupObra == 3 ? "checked" : "") disabled>
+                                                <label for="radioTwelve3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para CumEspTec -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary14">
+                                                    Cumplimiento de Especificaciones Técnicas
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                            <div class="col-sm-4" >
+                                                <div class="form-group" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioThirteen1" name="CumEspTec" value="1" @(Model.EncargadoCalidadIdEncargadocaliNavigation.CumEspTec == 1 ? "checked" : "") disabled>
+                                                <label for="radioThirteen1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioThirteen2" name="CumEspTec" value="2" @(Model.EncargadoCalidadIdEncargadocaliNavigation.CumEspTec == 2 ? "checked" : "") disabled>
+                                                <label for="radioThirteen2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioThirteen3" name="CumEspTec" value="3" @(Model.EncargadoCalidadIdEncargadocaliNavigation.CumEspTec == 3 ? "checked" : "") disabled>
+                                                <label for="radioThirteen3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para TrabjProtocolo -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary15">
+                                                    Entrega de trabajos con Protocolos,
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                                <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFourteen1" name="TrabjProtocolo" value="1" @(Model.EncargadoCalidadIdEncargadocaliNavigation.TrabjProtocolo == 1 ? "checked" : "") disabled>
+                                                <label for="radioFourteen1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFourteen2" name="TrabjProtocolo" value="2" @(Model.EncargadoCalidadIdEncargadocaliNavigation.TrabjProtocolo == 2 ? "checked" : "") disabled>
+                                                <label for="radioFourteen2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFourteen3" name="TrabjProtocolo" value="3" @(Model.EncargadoCalidadIdEncargadocaliNavigation.TrabjProtocolo == 3 ? "checked" : "") disabled>
+                                                <label for="radioFourteen3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para CerEnsayo -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary16">
+                                                    Entrega de Pruebas, Certificados, Ensayos solicitados
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                                <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFifteen1" name="CerEnsayo" value="1" @(Model.EncargadoCalidadIdEncargadocaliNavigation.CerEnsayo == 1 ? "checked" : "") disabled>
+                                                <label for="radioFifteen1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFifteen2" name="CerEnsayo" value="2" @(Model.EncargadoCalidadIdEncargadocaliNavigation.CerEnsayo == 2 ? "checked" : "") disabled>
+                                                <label for="radioFifteen2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFifteen3" name="CerEnsayo" value="3" @(Model.EncargadoCalidadIdEncargadocaliNavigation.CerEnsayo == 3 ? "checked" : "") disabled>
+                                                <label for="radioFifteen3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para Calidad -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary17">
+                                                    Calidad del trabajo, limpio y bien hecho
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                                <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSixteen1" name="Calidad" value="1" @(Model.EncargadoCalidadIdEncargadocaliNavigation.Calidad == 1 ? "checked" : "") disabled>
+                                                <label for="radioSixteen1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSixteen2" name="Calidad" value="2" @(Model.EncargadoCalidadIdEncargadocaliNavigation.Calidad == 2 ? "checked" : "") disabled>
+                                                <label for="radioSixteen2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSixteen3" name="Calidad" value="3" @(Model.EncargadoCalidadIdEncargadocaliNavigation.Calidad == 3 ? "checked" : "") disabled>
+                                                <label for="radioSixteen3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para TrabjTermOtr -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary18">
+                                                    Respeto por el trabajo terminado de otros
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                                <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSeventeen1" name="TrabjTermOtr" value="1" @(Model.EncargadoCalidadIdEncargadocaliNavigation.TrabjTermOtr == 1 ? "checked" : "") disabled>
+                                                <label for="radioSeventeen1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSeventeen2" name="TrabjTermOtr" value="2" @(Model.EncargadoCalidadIdEncargadocaliNavigation.TrabjTermOtr == 2 ? "checked" : "") disabled>
+                                                <label for="radioSeventeen2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSeventeen3" name="TrabjTermOtr" value="3" @(Model.EncargadoCalidadIdEncargadocaliNavigation.TrabjTermOtr == 3 ? "checked" : "") disabled>
+                                                <label for="radioSeventeen3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Aquí se pueden seguir agregando más secciones como las anteriores si es necesario -->
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label value="Observacion" class="control-label"></label>
+                            <input value="@Html.DisplayFor(model => model.EncargadoCalidadIdEncargadocaliNavigation.Observacion)" disabled class="form-control" />
+                        </div>
+                                <div class="form-group form-check" hidden>
+                            <label class="form-check-label">
+                                @Html.DisplayFor(model => model.EncargadoCalidadIdEncargadocaliNavigation.Firma)
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                        </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <!-- iCheck -->
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Formulario VºBº COORDINADOR DE ESPECIALIDADES BIM</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- Minimal style -->
+
+                            <div class="row">
+                                <div class="col-md-24">
+                                    <div class="form-group">
+                                        <label value="Nombre" class="control-label"></label>
+                                        <input value="@Html.DisplayFor(model => model.EspBimIdEspBimNavigation.Nombre)" disabled class="form-control" />
+                                    </div>
+                                    <!-- CumPlaSem -->
+                                <div style="text-align: right;">
+                                    <label style="margin-right: 20px;">SI, NO, N/A</label>
+                                </div>
+                                    <!-- Para IvaCancel -->
+                                    <div class="row">
+                                        <div class="col-sm-24">
+                                            <!-- Para SupObra -->
+                                            <div class="row">
+
+                                                <!-- Para EjEeTt -->
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary d-inline">
+                                                                <label for="checkboxPrimary19">
+                                                                    Ejecuta EE.TT. De acuerdo a lo solicitado.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioEighteen1" disabled name="EjEeTt" value="1" @(Model.EspBimIdEspBimNavigation.EjEeTt == 1 ? "checked" : "")>
+                                                                <label for="radioEighteen1"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioEighteen2" disabled name="EjEeTt" value="2" @(Model.EspBimIdEspBimNavigation.EjEeTt == 2 ? "checked" : "")>
+                                                                <label for="radioEighteen2"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioEighteen3" disabled name="EjEeTt" value="3" @(Model.EspBimIdEspBimNavigation.EjEeTt == 3 ? "checked" : "")>
+                                                                <label for="radioEighteen3"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Para CumAvances -->
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary d-inline">
+                                                                <label for="checkboxPrimary20">
+                                                                    Cumple con avance solicitado, según PAC.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioNineteen1" name="CumAvances" disabled value="1" @(Model.EspBimIdEspBimNavigation.CumAvances == 1 ? "checked" : "")>
+                                                                <label for="radioNineteen1"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioNineteen2" name="CumAvances" disabled value="2" @(Model.EspBimIdEspBimNavigation.CumAvances == 2 ? "checked" : "")>
+                                                                <label for="radioNineteen2"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioNineteen3" name="CumAvances" disabled value="3" @(Model.EspBimIdEspBimNavigation.CumAvances == 3 ? "checked" : "")>
+                                                                <label for="radioNineteen3"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Para IncuNorma -->
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary d-inline">
+                                                                <label for="checkboxPrimary21">
+                                                                    Informa sobre algún incumplimiento de norma.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwenty1" name="IncuNorma" disabled value="1" @(Model.EspBimIdEspBimNavigation.IncuNorma == 1 ? "checked" : "")>
+                                                                <label for="radioTwenty1"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwenty2" name="IncuNorma" disabled value="2" @(Model.EspBimIdEspBimNavigation.IncuNorma == 2 ? "checked" : "")>
+                                                                <label for="radioTwenty2"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwenty3" name="IncuNorma" disabled value="3" @(Model.EspBimIdEspBimNavigation.IncuNorma == 3 ? "checked" : "")>
+                                                                <label for="radioTwenty3"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Para InfProblema -->
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary d-inline">
+                                                                <label for="checkboxPrimary22">
+                                                                    Informa problemas o interferencias de proyecto.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwentyOne1" name="InfProblema" disabled value="1" @(Model.EspBimIdEspBimNavigation.InfProblema == 1 ? "checked" : "")>
+                                                                <label for="radioTwentyOne1"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwentyOne2" name="InfProblema" disabled value="2" @(Model.EspBimIdEspBimNavigation.InfProblema == 2 ? "checked" : "")>
+                                                                <label for="radioTwentyOne2"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwentyOne3" name="InfProblema" disabled value="3" @(Model.EspBimIdEspBimNavigation.InfProblema == 3 ? "checked" : "")>
+                                                                <label for="radioTwentyOne3"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label value="Observacion" class="control-label"></label>
+                                        <input value="@Html.DisplayFor(model => model.EspBimIdEspBimNavigation.Observacion)" disabled class="form-control" />
+                                    </div>
+                                <div class="form-group form-check" hidden>
+                                        <label class="form-check-label">
+                                            @Html.DisplayFor(model => model.EspBimIdEspBimNavigation.Firma)
+                                        </label>
+                                    </div>
+
+                                </div>
+                           
+
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+
+            </div>
+            </div>
+            <div class="col-md-6">
+                <!-- iCheck -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulario VºBº EXPERTO EN PREVENCIÓN</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Minimal style -->
+
+                        <div class="row">
+                            <div class="col-md-24">
+                                <div class="form-group">
+                                    <label value="Nombre" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.ExpertoPrevencionIdExpertoprevNavigation.Nombre)" disabled class="form-control" />
+                                </div>
+                                <!-- CumPlaSem -->
+                                <div style="text-align: right;">
+                                    <label style="margin-right: 15px;">SI, NO, N/A</label>
+                                </div>
+                                <!-- Para IvaCancel -->
+                                <div class="row">
+                                    <div class="col-sm-24">
+                                        <!-- Para SupObra -->
+                                        <div class="row">
+
+                                            <!-- Para CuenContTrab -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary23">
+                                                                Cuenta con los contratos de los trabajadores
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyTwo1" name="CuenContTrab" disabled value="1" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuenContTrab == 1 ? "checked" : "")>
+                                                            <label for="radioTwentyTwo1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyTwo2" name="CuenContTrab" disabled value="2" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuenContTrab == 2 ? "checked" : "")>
+                                                            <label for="radioTwentyTwo2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyTwo3" name="CuenContTrab" disabled value="3" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuenContTrab == 3 ? "checked" : "")>
+                                                            <label for="radioTwentyTwo3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para CuenRegInterno -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary24">
+                                                                Cuenta con registro de entrega Reg. Interno a trabajador
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyThree1" name="CuenRegInterno" disabled value="1" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuenRegInterno == 1 ? "checked" : "")>
+                                                            <label for="radioTwentyThree1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyThree2" name="CuenRegInterno" disabled value="2" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuenRegInterno == 2 ? "checked" : "")>
+                                                            <label for="radioTwentyThree2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyThree3" name="CuenRegInterno" disabled value="3" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuenRegInterno == 3 ? "checked" : "")>
+                                                            <label for="radioTwentyThree3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para CompRegInsec -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary25">
+                                                                Comprob.entrega de Reg.Interno Inspec.del trabajo y seremi
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyFour1" disabled name="CompRegInsec" value="1" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CompRegInsec == 1 ? "checked" : "")>
+                                                            <label for="radioTwentyFour1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyFour2" disabled name="CompRegInsec" value="2" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CompRegInsec == 2 ? "checked" : "")>
+                                                            <label for="radioTwentyFour2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyFour3" disabled name="CompRegInsec" value="3" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CompRegInsec == 3 ? "checked" : "")>
+                                                            <label for="radioTwentyFour3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para CuentaEpp -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary26">
+                                                                Cuenta con los registros entre EPP a trabajadores
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyFive1" disabled name="CuentaEpp" value="1" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuentaEpp == 1 ? "checked" : "")>
+                                                            <label for="radioTwentyFive1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyFive2" disabled name="CuentaEpp" value="2" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuentaEpp == 2 ? "checked" : "")>
+                                                            <label for="radioTwentyFive2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyFive3" disabled name="CuentaEpp" value="3" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CuentaEpp == 3 ? "checked" : "")>
+                                                            <label for="radioTwentyFive3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para IntroEspecifica -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary27">
+                                                                Cuentan los trabajadores con inducción específica del rubro
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentySix1" disabled name="IntroEspecifica" value="1" @(Model.ExpertoPrevencionIdExpertoprevNavigation.IntroEspecifica == 1 ? "checked" : "")>
+                                                            <label for="radioTwentySix1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentySix2" disabled name="IntroEspecifica" value="2" @(Model.ExpertoPrevencionIdExpertoprevNavigation.IntroEspecifica == 2 ? "checked" : "")>
+                                                            <label for="radioTwentySix2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentySix3" disabled name="IntroEspecifica" value="3" @(Model.ExpertoPrevencionIdExpertoprevNavigation.IntroEspecifica == 3 ? "checked" : "")>
+                                                            <label for="radioTwentySix3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para Cumple100 -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary28">
+                                                                Cumple con el 100% del programa personalizado de actividades
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentySeven1" disabled name="Cumple100" value="1" @(Model.ExpertoPrevencionIdExpertoprevNavigation.Cumple100 == 1 ? "checked" : "")>
+                                                            <label for="radioTwentySeven1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentySeven2" disabled name="Cumple100" value="2" @(Model.ExpertoPrevencionIdExpertoprevNavigation.Cumple100 == 2 ? "checked" : "")>
+                                                            <label for="radioTwentySeven2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentySeven3" disabled name="Cumple100" value="3" @(Model.ExpertoPrevencionIdExpertoprevNavigation.Cumple100 == 3 ? "checked" : "")>
+                                                            <label for="radioTwentySeven3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para CumpleIntrucciones -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary29">
+                                                                Cumple con las instrucciones y recomendaciones del experto
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyEight1" disabled name="CumpleIntrucciones" value="1" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CumpleIntrucciones == 1 ? "checked" : "")>
+                                                            <label for="radioTwentyEight1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyEight2" disabled name="CumpleIntrucciones" value="2" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CumpleIntrucciones == 2 ? "checked" : "")>
+                                                            <label for="radioTwentyEight2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioTwentyEight3" disabled name="CumpleIntrucciones" value="3" @(Model.ExpertoPrevencionIdExpertoprevNavigation.CumpleIntrucciones == 3 ? "checked" : "")>
+                                                            <label for="radioTwentyEight3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label value="Observacion" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.ExpertoPrevencionIdExpertoprevNavigation.Observacion)" disabled class="form-control" />
+                                </div>
+                                <div class="form-group form-check" hidden>
+                                    <label class="form-check-label">
+                                        @Html.DisplayFor(model => model.ExpertoPrevencionIdExpertoprevNavigation.Firma)
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- OPficina Tecnia -->
+            <div class="col-md-6">
+                <!-- iCheck -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulario VºBº OFICINA TECNICA</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Minimal style -->
+
+                        <div class="row">
+                            <div class="col-md-24">
+                                <div class="form-group">
+                                    <label value="Nombre" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.OficinaTecnicaIdOfitecNavigation.Nombre)" disabled class="form-control" />
+                                </div>
+                                <!-- CumPlaSem -->
+                                <div style="text-align: right;">
+                                    <label style="margin-right: 25px;">SI, NO, N/A</label>
+                                </div>
+                                <!-- Para IvaCancel -->
+                                <div class="row">
+                                    <div class="col-sm-24">
+                                        <!-- Para SupObra -->
+                                        <div class="row">
+
+                                            <!-- Para EntrEstPag -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary32">
+                                                                Entrega de Estado de Pago al día
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyOne1" disabled name="EntrEstPag" value="1" @(Model.OficinaTecnicaIdOfitecNavigation.EntrEstPag == 1 ? "checked" : "")>
+                                                            <label for="radioThirtyOne1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyOne2" disabled name="EntrEstPag" value="2" @(Model.OficinaTecnicaIdOfitecNavigation.EntrEstPag == 2 ? "checked" : "")>
+                                                            <label for="radioThirtyOne2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyOne3" disabled name="EntrEstPag" value="3" @(Model.OficinaTecnicaIdOfitecNavigation.EntrEstPag == 3 ? "checked" : "")>
+                                                            <label for="radioThirtyOne3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para BoleGar -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary33">
+                                                                Boletas de Garantía
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyTwo1" disabled name="BoleGar" value="1" @(Model.OficinaTecnicaIdOfitecNavigation.BoleGar == 1 ? "checked" : "")>
+                                                            <label for="radioThirtyTwo1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyTwo2" disabled name="BoleGar" value="2" @(Model.OficinaTecnicaIdOfitecNavigation.BoleGar == 2 ? "checked" : "")>
+                                                            <label for="radioThirtyTwo2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyTwo3" disabled name="BoleGar" value="3" @(Model.OficinaTecnicaIdOfitecNavigation.BoleGar == 3 ? "checked" : "")>
+                                                            <label for="radioThirtyTwo3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para ConFirmEmpr -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary34">
+                                                                Contrato firmado con la Empresa
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyThree1" disabled name="ConFirmEmpr" value="1" @(Model.OficinaTecnicaIdOfitecNavigation.ConFirmEmpr == 1 ? "checked" : "")>
+                                                            <label for="radioThirtyThree1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyThree2" disabled name="ConFirmEmpr" value="2" @(Model.OficinaTecnicaIdOfitecNavigation.ConFirmEmpr == 2 ? "checked" : "")>
+                                                            <label for="radioThirtyThree2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyThree3" disabled name="ConFirmEmpr" value="3" @(Model.OficinaTecnicaIdOfitecNavigation.ConFirmEmpr == 3 ? "checked" : "")>
+                                                            <label for="radioThirtyThree3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Para Descuento -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary35">
+                                                                Descuentos
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyFour1" disabled name="Descuento" value="1" @(Model.OficinaTecnicaIdOfitecNavigation.Descuento == 1 ? "checked" : "")>
+                                                            <label for="radioThirtyFour1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyFour2" disabled name="Descuento" value="2" @(Model.OficinaTecnicaIdOfitecNavigation.Descuento == 2 ? "checked" : "")>
+                                                            <label for="radioThirtyFour2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyFour3" disabled name="Descuento" value="3" @(Model.OficinaTecnicaIdOfitecNavigation.Descuento == 3 ? "checked" : "")>
+                                                            <label for="radioThirtyFour3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Para DetaMotivo -->
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group clearfix">
+                                                        <div class="icheck-primary d-inline">
+                                                            <label for="checkboxPrimary36">
+                                                                Detallar el motivo y monto del descuento
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group clearfix" style="text-align: right;">
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyFive1" disabled name="DetaMotivo" value="1" @(Model.OficinaTecnicaIdOfitecNavigation.DetaMotivo == 1 ? "checked" : "")>
+                                                            <label for="radioThirtyFive1"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyFive2" disabled name="DetaMotivo" value="2" @(Model.OficinaTecnicaIdOfitecNavigation.DetaMotivo == 2 ? "checked" : "")>
+                                                            <label for="radioThirtyFive2"></label>
+                                                        </div>
+                                                        <div class="icheck-danger d-inline">
+                                                            <input type="radio" id="radioThirtyFive3" disabled name="DetaMotivo" value="3" @(Model.OficinaTecnicaIdOfitecNavigation.DetaMotivo == 3 ? "checked" : "")>
+                                                            <label for="radioThirtyFive3"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label value="Observacion" class="control-label">Detallar el motivo y monto del descuento</label>
+                                    <input value="@Html.DisplayFor(model => model.OficinaTecnicaIdOfitecNavigation.Observacion)" disabled class="form-control" />
+                                </div>
+                                <div class="form-group form-check" hidden>
+                                    <label class="form-check-label">
+                                        @Html.DisplayFor(model => model.OficinaTecnicaIdOfitecNavigation.Firma)
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- Jefe de terrreno -->
+            <div class="col-md-6">
+                <!-- iCheck -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulario JEFE DE TERRENO</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Minimal style -->
+
+                        <div class="row">
+                            <div class="col-md-24">
+
+                                <div class="form-group">
+                                    <label value="Nombre" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.JefeTerrenoIdJefeterrenoNavigation.Nombre)" disabled class="form-control" />
+                                </div>
+                                <!-- CumPlaSem -->
+                                <div style="text-align: right;">
+                                    <label style="margin-right: 15px;">SI, NO, N/A</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary3">
+                                                    Asistencia a reuniones de planificación (PAC)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSecond1" disabled name="CumPlaSem" value="1" @(Model.JefeTerrenoIdJefeterrenoNavigation.CumPlaSem == 1 ? "checked" : "")>
+                                                <label for="radioSecond1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSecond2" disabled name="CumPlaSem" value="2" @(Model.JefeTerrenoIdJefeterrenoNavigation.CumPlaSem == 2 ? "checked" : "")>
+                                                <label for="radioSecond2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioSecond3" disabled name="CumPlaSem" value="3" @(Model.JefeTerrenoIdJefeterrenoNavigation.CumPlaSem == 3 ? "checked" : "")>
+                                                <label for="radioSecond3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para AsiReuPla -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary4">
+                                                    Asistencia a reuniones de planificación (PAC)
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioThree1" disabled name="AsiReuPla" value="1" @(Model.JefeTerrenoIdJefeterrenoNavigation.AsiReuPla == 1 ? "checked" : "")>
+                                                <label for="radioThree1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioThree2" disabled name="AsiReuPla" value="2" @(Model.JefeTerrenoIdJefeterrenoNavigation.AsiReuPla == 2 ? "checked" : "")>
+                                                <label for="radioThree2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioThree3" disabled name="AsiReuPla" value="3" @(Model.JefeTerrenoIdJefeterrenoNavigation.AsiReuPla == 3 ? "checked" : "")>
+                                                <label for="radioThree3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para SupPerObra -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary5">
+                                                    Supervisor permanente en obra
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFour1" disabled name="SupPerObra" value="1" @(Model.JefeTerrenoIdJefeterrenoNavigation.SupPerObra == 1 ? "checked" : "")>
+                                                <label for="radioFour1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFour2" disabled name="SupPerObra" value="2" @(Model.JefeTerrenoIdJefeterrenoNavigation.SupPerObra == 2 ? "checked" : "")>
+                                                <label for="radioFour2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFour3" disabled name="SupPerObra" value="3" @(Model.JefeTerrenoIdJefeterrenoNavigation.SupPerObra == 3 ? "checked" : "")>
+                                                <label for="radioFour3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Para CumProgGen -->
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group clearfix">
+                                            <div class="icheck-primary d-inline">
+                                                <label for="checkboxPrimary6">
+                                                    Cumplimiento con programa general de obra
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group clearfix" style="text-align: right;">
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFive1" disabled name="CumProgGen" value="1" @(Model.JefeTerrenoIdJefeterrenoNavigation.CumProgGen == 1 ? "checked" : "")>
+                                                <label for="radioFive1"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFive2" disabled name="CumProgGen" value="2" @(Model.JefeTerrenoIdJefeterrenoNavigation.CumProgGen == 2 ? "checked" : "")>
+                                                <label for="radioFive2"></label>
+                                            </div>
+                                            <div class="icheck-danger d-inline">
+                                                <input type="radio" id="radioFive3" disabled name="CumProgGen" value="3" @(Model.JefeTerrenoIdJefeterrenoNavigation.CumProgGen == 3 ? "checked" : "")>
+                                                <label for="radioFive3"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="form-group">
+                                    <label value="Observacion" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.JefeTerrenoIdJefeterrenoNavigation.Observacion)" disabled class="form-control" />
+                                </div>
+                                <div class="form-group form-check" hidden>
+                                    <label class="form-check-label">
+                                        @Html.DisplayFor(model => model.JefeTerrenoIdJefeterrenoNavigation.Firma)
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- OBSERVACIONES ADMINISTRADOR DE OBRA -->
+            <div class="col-md-6">
+                <!-- iCheck -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulario V°B° Y OBSERVACIONES ADMINISTRADOR DE OBRA :</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Minimal style -->
+
+                        <div class="row">
+                            <div class="col-md-24">
+                                <div class="form-group">
+                                    <label value="Nombre" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.ObsObrasIdObservacionNavigation.Nombre)" disabled class="form-control" />
+                                </div>
+                                <!-- CumPlaSem -->
+                                <!-- Para IvaCancel -->
+                                <div class="row">
+                                </div>
+
+                                <div class="form-group">
+                                    <label value="Compromisos" class="control-label">Compromisos</label>
+                                    <input value="@Html.DisplayFor(model => model.ObsObrasIdObservacionNavigation.Compromisos)" disabled class="form-control" />
+                                </div>
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        @Html.DisplayFor(model => model.ObsObrasIdObservacionNavigation.Firma)
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- Jefe de Bodega -->
+            <div class="col-md-6">
+                <!-- iCheck -->
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Formulario VºBº JEFE DE BODEGA</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Minimal style -->
+
+                        <div class="row">
+                            <div class="col-md-24">
+                                <div class="form-group">
+                                    <label value="Nombre" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.JefeBodegaIdJefeBodegaNavigation.Nombre)" disabled class="form-control" />
+                                </div>
+                                <!-- CumPlaSem -->
+                                <div style="text-align: right;">
+                                    <label style="margin-right: 40px;">SI, NO, N/A</label>
+                                </div>
+                                <!-- Para IvaCancel -->
+                                <div class="row">
+                                    <div class="col-sm-16">
+                                        <!-- Para SupObra -->
+                                        <div class="row">
+
+                                            <!-- Para CuenContTrab -->
+                                            <div class="row">
+                                                <!-- Para DescuentoInsumo -->
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary d-inline">
+                                                                <label for="checkboxPrimary30">
+                                                                    Descuento de insumos
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group clearfix" style="text-align: right;">
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwentyNine1" disabled name="DescuentoInsumo" value="1" @(Model.JefeBodegaIdJefeBodegaNavigation.DescuentoInsumo == 1 ? "checked" : "")>
+                                                                <label for="radioTwentyNine1"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwentyNine2" disabled name="DescuentoInsumo" value="2" @(Model.JefeBodegaIdJefeBodegaNavigation.DescuentoInsumo == 2 ? "checked" : "")>
+                                                                <label for="radioTwentyNine2"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioTwentyNine3" disabled name="DescuentoInsumo" value="3" @(Model.JefeBodegaIdJefeBodegaNavigation.DescuentoInsumo == 3 ? "checked" : "")>
+                                                                <label for="radioTwentyNine3"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Para EntregaCargos -->
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group clearfix">
+                                                            <div class="icheck-primary d-inline">
+                                                                <label for="checkboxPrimary31">
+                                                                    Entrega de cargos
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group clearfix" style="text-align: right;">
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioThirty1" disabled name="EntregaCargos" value="1" @(Model.JefeBodegaIdJefeBodegaNavigation.EntregaCargos == 1 ? "checked" : "")>
+                                                                <label for="radioThirty1"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioThirty2" disabled name="EntregaCargos" value="2" @(Model.JefeBodegaIdJefeBodegaNavigation.EntregaCargos == 2 ? "checked" : "")>
+                                                                <label for="radioThirty2"></label>
+                                                            </div>
+                                                            <div class="icheck-danger d-inline">
+                                                                <input type="radio" id="radioThirty3" disabled name="EntregaCargos" value="3" @(Model.JefeBodegaIdJefeBodegaNavigation.EntregaCargos == 3 ? "checked" : "")>
+                                                                <label for="radioThirty3"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label value="Detallar el motivo y monto del descuento" class="control-label"></label>
+                                    <input value="@Html.DisplayFor(model => model.JefeBodegaIdJefeBodegaNavigation.Observacion)" disabled class="form-control" />
+                                </div>
+                                <div class="form-group form-check" hidden>
+                                    <label class="form-check-label">
+                                        @Html.DisplayFor(model => model.JefeBodegaIdJefeBodegaNavigation.Firma)
+                                    </label>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+        <div class="firma-container">
+            <div class="linea-firma"></div>
+            <p class="nombre-firma">Nombre del Firmante</p>
+            <p class="titulo-firma">Firma</p>
+        </div>
+    </div>
+
+
+
+    <main class="content">
+
+        <!--{% include 'includes/navigation.html' %}-->
+        <!--{% block content %}{% endblock content %}-->
+
+@*         <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.2.0
+            </div>
+        </footer> *@
+
+    </main>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+
+    <!-- Specific Page JS goes HERE  -->
+    <!-- Asegúrate de tener la versión más reciente desde un CDN o descarga las librerías -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>
+        async function downloadPDF2() {
+            try {
+                // Ocultar elementos no deseados antes de la captura
+                document.querySelectorAll('nav, aside, button').forEach(el => el.style.display = 'none');
+
+                const content = document.getElementById('content1'); // El contenedor que deseas convertir a PDF
+                const canvas = await html2canvas(content, {
+                    scale: 1,
+                    useCORS: true // Para manejar el contenido de origen cruzado (si aplica)
+                });
+
+                // Volver a mostrar elementos ocultos
+                document.querySelectorAll('nav, aside, button').forEach(el => el.style.display = '');
+
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'pt',
+                    format: 'a4'
+                });
+
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                let imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                let heightLeft = imgHeight;
+
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                heightLeft -= pdfHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+                    heightLeft -= pdfHeight;
+                }
+
+                pdf.save('details.pdf');
+            } catch (error) {
+                console.error('Error al generar PDF', error);
+            }
+        }
+    </script>
+
+    <script>
+        async function downloadPDF() {
+            // Ocultar elementos que no deseas incluir en el PDF
+            document.querySelectorAll('nav, aside, button').forEach(el => el.style.display = 'none');
+
+            // Capturar el div y guardar su estado original
+            const content = document.getElementById('content');
+            const originalClass = content.className;
+            const originalStyle = content.getAttribute('style');
+
+            // Modificar temporalmente el div
+            content.className = '';
+            content.removeAttribute('style');
+
+            // Usa html2canvas para hacer una "captura de pantalla" de tu contenido
+            const canvas = await html2canvas(content, {
+                scale: 1, // Ajusta este valor si es necesario
+                useCORS: true // Para manejar el contenido de origen cruzado (si aplica)
+            });
+            const imgData = canvas.toDataURL('image/png');
+
+            // Restaurar el div a su estado original
+            content.className = originalClass;
+            content.setAttribute('style', originalStyle);
+
+            // Volver a mostrar los elementos ocultos
+            document.querySelectorAll('nav, aside, button').forEach(el => el.style.display = '');
+
+            // Inicializa jsPDF y crea el PDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'pt',
+                format: 'a4'
+            });
+
+            // Ajustes de escala para que el contenido se ajuste dentro del formato A4
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const imgProps = pdf.getImageProperties(imgData);
+            let imgWidth = pdfWidth;
+            let imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+            // Si la altura escalada es mayor que la altura de la página A4, entonces escala en función de la altura en su lugar.
+            if (imgHeight > pdfHeight) {
+                imgHeight = pdfHeight;
+                imgWidth = (imgProps.width * imgHeight) / imgProps.height;
+            }
+
+            // Agrega la imagen al PDF centrada
+            const x = (pdfWidth - imgWidth) / 2;
+            const y = (pdfHeight - imgHeight) / 2;
+            pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+
+            // Descarga el PDF
+            pdf.save('details.pdf');
+        }
+    </script>
+
+
+</body>
+</html>
+
+
+@* 
+<h1>Details</h1>
+
+<div>
+    <h4>Actum</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaPresentacion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaPresentacion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EstadoActa)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EstadoActa)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaApro)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FechaApro)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AdministradorObraIdEncalidadNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AdministradorObraIdEncalidadNavigation.IdEncalidad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EncargadoCalidadIdEncargadocaliNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EncargadoCalidadIdEncargadocaliNavigation.IdEncargadocali)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EspBimIdEspBimNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EspBimIdEspBimNavigation.IdEspBim)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EspecialidadIdEspecialidadNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EspecialidadIdEspecialidadNavigation.IdEspecialidad)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ExpertoPrevencionIdExpertoprevNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ExpertoPrevencionIdExpertoprevNavigation.IdExpertoprev)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.JefeBodegaIdJefeBodegaNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.JefeBodegaIdJefeBodegaNavigation.IdJefeBodega)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.JefeTerrenoIdJefeterrenoNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.JefeTerrenoIdJefeterrenoNavigation.IdJefeterreno)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ObraIdObraNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ObraIdObraNavigation.IdObra)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ObsObrasIdObservacionNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ObsObrasIdObservacionNavigation.IdObservacion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OficinaTecnicaIdOfitecNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OficinaTecnicaIdOfitecNavigation.IdOfitec)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RazonSocialIdRazonSocialNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RazonSocialIdRazonSocialNavigation.IdRazonSocial)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdActa">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+ *@

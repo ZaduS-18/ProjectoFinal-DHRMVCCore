@@ -1,0 +1,83 @@
+﻿@model IEnumerable<DHRMVCCore.Models.OficinaTecnica>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EntrEstPag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BoleGar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConFirmEmpr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetaMotivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Firma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActaIdActaNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntrEstPag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoleGar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConFirmEmpr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DetaMotivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActaIdActaNavigation.IdActa)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdOfitec">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdOfitec">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdOfitec">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,87 @@
+﻿@model DHRMVCCore.Models.Usuario
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eliminar Usuario</title>
+
+    <!-- Tus estilos y scripts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box" style="width:20rem;">
+        <img src="~/dist/img/logo_bravoizquierdo.jpg"  alt="Logo" class="img-thumbnail">
+
+        <div class="card card-info">
+            <div class="card-header" style="background-color: #8a0602;">
+                <h3 class="card-title" style="text-align: center;">Eliminar Usuario</h3>
+            </div>
+            <div class="card-body">
+                <h3>¿Estás seguro de querer eliminar este usuario?</h3>
+                <div>
+                    <hr />
+                    <dl class="row">
+
+                        <dt class="col-sm-10">
+                            <label>Primer Nombre</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.PrimerNombre)
+                        </dd>
+                        <dt class="col-sm-10">
+                            <label>Segundo Nombre</label>
+                        </dt>
+
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.PrimerApellido)
+                        </dd>
+
+                        <dt class="col-sm-10">
+                            <label>Teléfono</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Telefono)
+                        </dd>
+                        <dt class="col-sm-10">
+                            <label>RUT</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Rut)
+                        </dd>
+
+                        <dt class="col-sm-10">
+                            <label>Correo</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.Correo)
+                        </dd>
+
+                        <!-- Comenta o elimina si no necesitas este campo -->
+                        <dt class="col-sm-10">
+                            <label>ID del Rol</label>
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.RolIdRolNavigation.NombreRol)
+                        </dd>
+                    </dl>
+
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="IdUsuario" />
+                        <input type="submit" value="Delete" class="btn btn-danger" /> |
+                        <a asp-action="ListarUsuarios">Volver</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

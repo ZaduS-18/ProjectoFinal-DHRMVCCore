@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DHRMVCCore.Models.ExpertoPrevencion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuenContTrab)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuenRegInterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompRegInsec)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuentaEpp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IntroEspecifica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cumple100)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CumpleIntrucciones)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Firma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActaIdActaNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuenContTrab)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuenRegInterno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompRegInsec)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuentaEpp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IntroEspecifica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cumple100)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CumpleIntrucciones)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firma)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActaIdActaNavigation.IdActa)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdExpertoprev">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdExpertoprev">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdExpertoprev">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
